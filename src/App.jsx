@@ -532,16 +532,64 @@ export default function App() {
   // Active User session views
   return (
     <div className="app-container">
+      {/* Desktop Sidebar */}
+      <aside className="app-sidebar">
+        <div className="sidebar-header">
+          <div className="brand-title" onClick={() => { setActiveTab('jobs'); setSelectedJob(null); }}>
+            Kerala<span className="brand-accent">Gig</span> 🌴
+          </div>
+          <div style={{
+            fontSize: '0.75rem',
+            background: 'var(--primary-light)',
+            padding: '4px 8px',
+            borderRadius: '4px',
+            color: 'var(--primary)',
+            marginTop: '8px',
+            display: 'inline-block',
+            fontWeight: '600'
+          }}>
+            {currentRole === 'seeker' ? 'Hiring Mode' : 'Working Mode'}
+          </div>
+        </div>
+        
+        <nav style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+          <button
+            className={`sidebar-nav-item ${activeTab === 'jobs' && !selectedJob ? 'active' : ''}`}
+            onClick={() => { setActiveTab('jobs'); setSelectedJob(null); }}
+          >
+            <Compass size={20} />
+            <span>Explore Jobs</span>
+          </button>
+          {currentRole === 'worker' && (
+            <button
+              className={`sidebar-nav-item ${activeTab === 'my-bids' ? 'active' : ''}`}
+              onClick={() => { setActiveTab('my-bids'); setSelectedJob(null); }}
+            >
+              <MessageSquare size={20} />
+              <span>My Quotations</span>
+            </button>
+          )}
+          <button
+            className={`sidebar-nav-item ${activeTab === 'profile' ? 'active' : ''}`}
+            onClick={() => { setActiveTab('profile'); setSelectedJob(null); }}
+          >
+            <User size={20} />
+            <span>Profile Dashboard</span>
+          </button>
+        </nav>
+      </aside>
+
+      <div className="main-wrapper">
       {/* Sticky Header */}
       <header className="app-header">
         <div className="brand-title" onClick={() => { setActiveTab('jobs'); setSelectedJob(null); }}>
           Kerala<span className="brand-accent">Gig</span> 🌴
           <span style={{
             fontSize: '0.65rem',
-            background: 'var(--bg-tertiary)',
+            background: 'var(--primary-light)',
             padding: '2px 6px',
             borderRadius: '4px',
-            color: 'var(--text-secondary)'
+            color: 'var(--primary)'
           }}>{currentRole === 'seeker' ? 'Hiring Mode' : 'Working Mode'}</span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
@@ -549,7 +597,7 @@ export default function App() {
             src={currentUser.avatar}
             alt={currentUser.name}
             className="avatar"
-            style={{ width: '36px', height: '36px', cursor: 'pointer', border: currentUser.verified ? '2px solid var(--success)' : '2px solid var(--bg-tertiary)' }}
+            style={{ width: '36px', height: '36px', cursor: 'pointer', border: currentUser.verified ? '2px solid var(--success)' : '2px solid #cbd5e1' }}
             onClick={() => setActiveTab('profile')}
           />
         </div>
@@ -1333,6 +1381,7 @@ export default function App() {
           <span>Profile</span>
         </button>
       </nav>
+      </div>
 
       {/* MODAL 1: Post Job (Seeker Form Panel) */}
       {showPostModal && (
